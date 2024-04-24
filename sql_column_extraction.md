@@ -28,16 +28,12 @@
 
 이 쿼리는 테이블 'SM001KS'와 'COND02KS'에 대한 SELECT 및 INSERT 구문을 생성하기 위해 사용됩니다. 각 테이블에 대해 동적으로 DML 명령을 생성하며, UNION ALL을 사용하여 두 테이블의 결과를 하나의 결과로 결합합니다.
 
+
+
 SELECT *
 FROM (
   SELECT DECODE(A.COLUMN_ID, 1, '      SELECT  ', '            , ') || DECODE(:alias1, NULL, NULL, :alias1 || '.') 
       || A.COLUMN_NAME || LPAD(' ', 35 - LENGTHB(A.COLUMN_NAME)) || '-- ' || B.Comments   AS "SELECT"
-      
-     --, DECODE(a.COLUMN_ID, 1, 'INSERT INTO ' || 'tab1' || ' (', '                , ') || ':' || DECODE(:alias1, NULL, NULL, :alias1 || '.') || LOWER(A.COLUMN_NAME)
-     -- || CASE WHEN max(a.column_id) OVER (PARTITION BY A.TABLE_NAME) = A.COLUMN_ID THEN '      )' ELSE NULL END
-     --|| LPAD(' ', 40 - LENGTHB(A.COLUMN_NAME) - DECODE(a.COLUMN_ID, 1, 16, 0) 
-     --       - (CASE WHEN max(a.COLUMN_ID) OVER (PARTITION BY A.TABLE_NAME) = A.COLUMN_ID THEN 2 ELSE 0 END)) || '-- ' || B.Comments AS "INSERT"
-     
       ,DECODE(A.COLUMN_ID, 1, 'INSERT INTO   ', '            , ') || ':' || DECODE(:alias3, NULL, NULL, :alias3 || '.') 
       || LOWER(A.COLUMN_NAME) || LPAD(' ', 35 - LENGTHB(A.COLUMN_NAME)) || '-- ' || B.Comments   AS "INSERT"
   FROM all_tab_columns A, all_col_comments B
@@ -57,8 +53,6 @@ FROM (
       ,'            , ' || ':' || DECODE(:alias4, NULL, NULL, :alias4 || '.')  || LOWER(A.COLUMN_NAME) 
       || LPAD(' ', 35 - LENGTHB(A.COLUMN_NAME)) 
       || '-- ' || B.Comments 
-      
-      
   FROM all_tab_columns A, all_col_comments B
   WHERE a.owner = 'SMIT'
     AND a.table_name = 'COND02KS'

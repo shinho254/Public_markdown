@@ -29,7 +29,8 @@
 이 쿼리는 테이블 'SM001KS'와 'COND02KS'에 대한 SELECT 및 INSERT 구문을 생성하기 위해 사용됩니다. 각 테이블에 대해 동적으로 DML 명령을 생성하며, UNION ALL을 사용하여 두 테이블의 결과를 하나의 결과로 결합합니다.
 
 
-
+<pre>
+<code>
 SELECT *
 FROM (
   SELECT DECODE(A.COLUMN_ID, 1, '      SELECT  ', '            , ') || DECODE(:alias1, NULL, NULL, :alias1 || '.') 
@@ -61,3 +62,5 @@ FROM (
     AND a.column_name = b.column_name
   ORDER BY COLUMN_ID
 )
+</code>
+</pre>
